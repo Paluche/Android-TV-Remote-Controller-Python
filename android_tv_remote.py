@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
+
+import sys
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from pynput import keyboard
 from pairing import PairingSocket
 from sending_keys import SendingKeySocket
 from key_codes import *
-import sys
 
 
 # Set your server name, server ip and client name here
-SERVER_IP = '192.168.0.144'
-SERVER_NAME = "Mi Box"
-CLIENT_NAME = "hmi"
+sending_key_socket = None
 
 def print_guide():
     print('''
@@ -24,6 +24,7 @@ def print_guide():
     ''')
 
 def on_release(key):
+    global sending_key_socket
     print_guide()
     if key.char == 'q' or key == keyboard.Key.esc:
         # Stop listener
@@ -50,18 +51,48 @@ def on_release(key):
     elif key.char == 'n' :
         sending_key_socket.send_lunch_app_command("netflix")
 
+def __main():
+    global sending_key_socket
 
-if __name__ == "__main__":
+    parser = ArgumentParser(formatter_class=RawDescriptionHelpFormatter,
+                            description=__doc__)
+
+    parser.add_argument(
+        dest='host',
+        help='IP address or host name of the TV.'
+    )
+
+    parser.add_argument(
+        dest='name',
+        help='Friendly name of the TV'
+    )
+
+    parser.add_argument(
+        '--pairing',
+        metavar='[Client name]',
+        dest='pairing',
+        help='Perform the pairing with the TV, specify the name of the client.'
+    )
+
+    parsed = parser.parse_args()
+
     # if argument for pairing exist, start to pair
-    if len(sys.argv) > 1 and sys.argv[1] == "pairing":
-        pairing_sock = PairingSocket(CLIENT_NAME, SERVER_IP)
+    if parsed.pairing is not None:
+        print('Performing pairing')
+        pairing_sock = PairingSocket(parsed.pairing, parsed.host)
         pairing_sock.connect()
         pairing_sock.start_pairing()
-        assert (pairing_sock.connected),"Connection unsuccessful!"
-    
-    sending_key_socket = SendingKeySocket(SERVER_NAME, SERVER_IP)
+        assert (pairing_sock.connected), "Connection unsuccessful!"
+        print('Pairing OK')
+
+    print('Connecting to the TV')
+    sending_key_socket = SendingKeySocket(parsed.name, parsed.host)
     sending_key_socket.connect()
     print_guide()
     # Receive input keys
     with keyboard.Listener(on_release=on_release) as listener:
         listener.join()
+
+
+if __name__ == "__main__":
+    __main()
