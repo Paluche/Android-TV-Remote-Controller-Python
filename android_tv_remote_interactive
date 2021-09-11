@@ -1,0 +1,53 @@
+#! /usr/bin/env -S python3 -i
+
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from pairing import PairingSocket
+from sending_keys import SendingKeySocket
+
+
+android_tv = None
+
+
+def __main():
+    global android_tv
+
+    parser = ArgumentParser(formatter_class=RawDescriptionHelpFormatter,
+                            description=__doc__)
+
+    parser.add_argument(
+        dest='host',
+        help='IP address or host name of the TV.'
+    )
+
+    parser.add_argument(
+        dest='name',
+        help='Friendly name of the TV'
+    )
+
+    parser.add_argument(
+        '--pairing',
+        metavar='[Client name]',
+        dest='pairing',
+        help='Perform the pairing with the TV, specify the name of the client.'
+    )
+
+    parsed = parser.parse_args()
+
+    # if argument for pairing exist, start to pair
+    if parsed.pairing is not None:
+        print('Performing pairing')
+        pairing_sock = PairingSocket(parsed.pairing, parsed.host)
+        pairing_sock.connect()
+        pairing_sock.start_pairing()
+        assert (pairing_sock.connected), "Connection unsuccessful!"
+        print('Pairing OK')
+
+    print('Connecting to the TV')
+    android_tv = SendingKeySocket(parsed.name, parsed.host)
+    android_tv.connect()
+    print('Connected')
+    print('SendingKeySocket instance is named "android_tv"')
+
+
+if __name__ == '__main__':
+    __main()
