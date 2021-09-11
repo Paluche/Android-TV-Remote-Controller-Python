@@ -31,7 +31,7 @@ class SendingKeySocket:
                             certfile="cert.pem",
                             do_handshake_on_connect=True)
         self.ssl_sock.connect((self.host, self.port))
-    
+
     def disconnect(self):
         """
         This function will disconnect the socket
@@ -43,7 +43,7 @@ class SendingKeySocket:
         """
         This function will receive raw message, decode the message.
         :param raw_message: raw received message
-        :return: 
+        :return:
         """
         pass
 
@@ -73,15 +73,15 @@ class SendingKeySocket:
         message = [1,0,0]
         # adding payload size
         message.append(17+len(server_name))
-        # adding two 1 as a 4 byte, one 32, one 3 and six 0 
+        # adding two 1 as a 4 byte, one 32, one 3 and six 0
         message += [0,0,0,1,0,0,0,1,32,3,0,0,0,0,0,0]
         # adding size of the server name
         message.append(len(server_name))
-        # adding server name characters as asci 
+        # adding server name characters as asci
         for item in server_name:
             message.append(ord(item))
         return message
-    
+
     def send_key_command(self, command_code):
         """
         This function will receive command code, create and send command message to server.
@@ -100,7 +100,7 @@ class SendingKeySocket:
         message[15] = 1
         # sending key command with release flag
         self.send_message(bytes(message))
- 
+
     # TODO: complete launch app function.
     def send_lunch_app_command(self, app_name):
         """
@@ -118,4 +118,3 @@ class SendingKeySocket:
             message.append(ord(item))
         # sending key command with release flag
         self.send_message(bytes(message))
-        

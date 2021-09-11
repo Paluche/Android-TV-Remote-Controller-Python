@@ -48,7 +48,7 @@ def create_secret_message(secret_hash) :
 def parse_json_message(raw_data) :
     """
     This function will parse the json message
-    :param raw_data: get bytes of raw json message 
+    :param raw_data: get bytes of raw json message
     :return: extracted status and type of the message
     """
 

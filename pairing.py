@@ -32,7 +32,7 @@ class PairingSocket:
                             certfile="cert.pem",
                             do_handshake_on_connect=True)
         self.ssl_sock.connect((self.host, self.port))
-    
+
     def disconnect(self):
         """
         This function will disconnect the socket

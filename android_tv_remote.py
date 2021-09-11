@@ -38,7 +38,7 @@ def on_release(key):
     elif key.char == 's' :
         sending_key_socket.send_key_command(KEYCODE_DPAD_DOWN)
     elif key.char == 'a' :
-        sending_key_socket.send_key_command(KEYCODE_DPAD_LEFT)   
+        sending_key_socket.send_key_command(KEYCODE_DPAD_LEFT)
     elif key.char == 'd' :
         sending_key_socket.send_key_command(KEYCODE_DPAD_RIGHT)
     elif key.char == 'o' :
