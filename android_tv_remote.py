@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from pynput import keyboard
 from pairing import PairingSocket
 from sending_keys import SendingKeySocket
