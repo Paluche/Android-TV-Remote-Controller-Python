@@ -7,3 +7,4 @@ pynput==1.7.3
 pyOpenSSL==20.0.1
 python-xlib==0.31
 six==1.16.0
+zeroconf==0.36.2
