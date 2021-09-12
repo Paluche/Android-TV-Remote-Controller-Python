@@ -24,7 +24,7 @@ def create_option_message() :
     json_dump = json.dumps(message)
     return json_dump
 
-def create_configuration_mesaage() :
+def create_configuration_message() :
     """
     This function will generate json string for configuration message
     :return: json string of created message

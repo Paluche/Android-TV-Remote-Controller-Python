@@ -66,7 +66,7 @@ class PairingSocket:
 
                 elif message_type == 20:
                     # creating configuration message
-                    message = create_configuration_mesaage()
+                    message = create_configuration_message()
 
                 elif message_type == 31:
                     # Creating secret message: a sha-256 hash of client certificate modulus + client certificate exponent +

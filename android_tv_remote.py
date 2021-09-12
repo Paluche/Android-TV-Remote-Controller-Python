@@ -49,7 +49,7 @@ def on_release(key):
     elif key.char == 'j' :
         sending_key_socket.send_key_command(KEYCODE_VOLUME_DOWN)
     elif key.char == 'n' :
-        sending_key_socket.send_lunch_app_command("netflix")
+        sending_key_socket.send_launch_app_command("netflix")
 
 def __main():
     global sending_key_socket

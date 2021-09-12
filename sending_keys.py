@@ -63,7 +63,7 @@ class SendingKeySocket:
         data = self.ssl_sock.recv(1024)
         self.parse_message(data)
 
-    def create_configuration_mesaage(self, server_name):
+    def create_configuration_message(self, server_name):
         """
         This function will receive server name and create the configuration message.
         :param server_name: string of the server name
@@ -87,7 +87,7 @@ class SendingKeySocket:
         This function will receive command code, create and send command message to server.
         :param server_name: integer of command code
         """
-        self.send_message(bytes(self.create_configuration_mesaage(self.server_name)))
+        self.send_message(bytes(self.create_configuration_message(self.server_name)))
         # creating message
         message = [1,2,0,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         # adding key code to the mesage
@@ -102,13 +102,13 @@ class SendingKeySocket:
         self.send_message(bytes(message))
 
     # TODO: complete launch app function.
-    def send_lunch_app_command(self, app_name):
+    def send_launch_app_command(self, app_name):
         """
         This function will receive android application name, create and send app launch command.
         :param app_name: string of the application package name
         """
         # currently just launch netflix
-        self.send_message(bytes(self.create_configuration_mesaage(self.server_name)))
+        self.send_message(bytes(self.create_configuration_message(self.server_name)))
         # creating message
         message = [1,16,0]
         # adding key code to the mesage
